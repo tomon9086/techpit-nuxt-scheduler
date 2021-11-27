@@ -3,32 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Homepage</title>
+  <title>Vue Homepage</title>
+
+  <!-- Vue.jsを組み込む -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 </head>
 <body>
-  <h1>nino's Homepage</h1>
-  <p>Hello, World!</p>
-  <table>
-    <tr>
-      <td>GitHub</td>
-      <td>
-        <a href="https://github.com/tomon9086" target="_blank" rel="noopener noreferrer">@tomon9086</a>
-      </td>
-    </tr>
-    <tr>
-      <td>Twitter</td>
-      <td>
-        <a href="https://twitter.com/tomon9086" target="_blank" rel="noopener noreferrer">@tomon9086</a>
-      </td>
-    </tr>
-    <tr>
-      <td>Zenn</td>
-      <td>
-        <a href="https://zenn.dev/tomon9086" target="_blank" rel="noopener noreferrer">@tomon9086</a>
-      </td>
-    </tr>
-  </table>
-  <hr>
-  <footer>2021 &copy; nino @tomon9086</footer>
+  <!-- Vueを使う要素を特定するためにid属性を付与 -->
+  <div id="app">
+    <h1>nino's Homepage</h1>
+    <p>Hello, World!</p>
+    <table>
+      <tr v-for="item in socialLinks" :key="item.title">
+        <td>{{ item.title }}</td>
+        <td>
+          <a :href="`${item.origin}/${item.id}`" target="_blank" rel="noopener noreferrer">@{{ item.id }}</a>
+        </td>
+      </tr>
+    </table>
+    <hr>
+    <footer>2021 &copy; nino @tomon9086</footer>
+  </div>
+
+  <script>
+    new Vue({
+      // id属性にappが指定されている要素にVueを適用
+      el: '#app',
+      // Vueの記法で使えるプロパティの定義
+      data: {
+        socialLinks: [{
+          title: 'Github',
+          origin: 'https://github.com',
+          id: 'tomon9086'
+        }, {
+          title: 'Twitter',
+          origin: 'https://twitter.com',
+          id: 'tomon9086'
+        }, {
+          title: 'Zenn',
+          origin: 'https://zenn.dev',
+          id: 'tomon9086'
+        }]
+      }
+    })
+  </script>
 </body>
 </html>
