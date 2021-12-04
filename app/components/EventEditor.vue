@@ -1,9 +1,5 @@
 <template>
   <v-container>
-    <!-- v-model の動作確認用 -->
-    {{ title }}
-    {{ description }}
-    {{ time }}
     <v-row>
       <v-col>
         <!-- タイトル入力 -->
@@ -58,12 +54,42 @@
 import { DateTime } from 'luxon'
 
 export default {
+  model: {
+    prop: 'value',
+    event: 'change'
+  },
+  props: {
+    value: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       now: DateTime.now(),
       title: '',
       description: '',
       time: '19:00'
+    }
+  },
+  watch: {
+    value () {
+      this.title = this.value.title
+      this.description = this.value.description
+    },
+    title () {
+      this.changeEvent()
+    },
+    description () {
+      this.changeEvent()
+    }
+  },
+  methods: {
+    changeEvent () {
+      this.$emit('change', {
+        title: this.title,
+        description: this.description
+      })
     }
   }
 }
