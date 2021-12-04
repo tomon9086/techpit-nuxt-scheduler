@@ -52,22 +52,7 @@
           class="overflow-y-auto"
           max-height="75vh"
         >
-          <v-list-item align="start">
-            <v-list-item-content>
-              <v-list-item-title>
-                2021/01/01
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                19:00 ~ 21:00
-              </v-list-item-subtitle>
-            </v-list-item-content>
-
-            <v-list-item-action>
-              <v-icon color="accent">
-                mdi-delete
-              </v-icon>
-            </v-list-item-action>
-          </v-list-item>
+          <date-list-item />
         </v-list>
       </v-col>
     </v-row>
