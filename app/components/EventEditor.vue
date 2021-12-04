@@ -8,19 +8,33 @@
           required
           counter
           maxlength="25"
+          :value="title"
+          @change="(value) => {
+            title = value
+          }"
         />
         <!-- 詳細入力 -->
         <v-textarea
           label="Description"
           counter
           maxlength="200"
+          :value="description"
+          @change="(value) => {
+            description = value
+          }"
         />
       </v-col>
       <v-col>
         <v-row>
           <v-col>
             <!-- 時刻選択 -->
-            <v-time-picker format="24hr" />
+            <v-time-picker
+              format="24hr"
+              :value="time"
+              @change="(value) => {
+                time = value
+              }"
+            />
           </v-col>
           <v-col>
             <!-- 日付選択 -->
@@ -62,6 +76,13 @@
 
 <script>
 export default {
+  data () {
+    return {
+      title: '',
+      description: '',
+      time: '19:00'
+    }
+  }
 }
 </script>
 
