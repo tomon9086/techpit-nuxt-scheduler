@@ -2,10 +2,10 @@
   <v-list-item align="start">
     <v-list-item-content>
       <v-list-item-title>
-        2021/01/01
+        {{ date.toFormat('yyyy/MM/dd') }}
       </v-list-item-title>
       <v-list-item-subtitle>
-        19:00 ~
+        {{ date.toFormat('HH:mm') }} ~
       </v-list-item-subtitle>
     </v-list-item-content>
 
@@ -18,6 +18,17 @@
 </template>
 
 <script>
+import { DateTime } from 'luxon'
+
 export default {
+  props: {
+    // date というプロパティを定義
+    date: {
+      // プロパティのデータ型を指定
+      type: DateTime,
+      // 必須項目の指定
+      required: true
+    }
+  }
 }
 </script>

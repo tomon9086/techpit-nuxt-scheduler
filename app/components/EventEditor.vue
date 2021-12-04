@@ -52,7 +52,7 @@
           class="overflow-y-auto"
           max-height="75vh"
         >
-          <date-list-item />
+          <date-list-item :date="now" />
         </v-list>
       </v-col>
     </v-row>
@@ -60,9 +60,12 @@
 </template>
 
 <script>
+import { DateTime } from 'luxon'
+
 export default {
   data () {
     return {
+      now: DateTime.now(),
       title: '',
       description: '',
       time: '19:00'
