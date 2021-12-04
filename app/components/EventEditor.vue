@@ -1,27 +1,25 @@
 <template>
   <v-container>
+    <!-- v-model の動作確認用 -->
+    {{ title }}
+    {{ description }}
+    {{ time }}
     <v-row>
       <v-col>
         <!-- タイトル入力 -->
         <v-text-field
+          v-model="title"
           label="Title"
           required
           counter
           maxlength="25"
-          :value="title"
-          @change="(value) => {
-            title = value
-          }"
         />
         <!-- 詳細入力 -->
         <v-textarea
+          v-model="description"
           label="Description"
           counter
           maxlength="200"
-          :value="description"
-          @change="(value) => {
-            description = value
-          }"
         />
       </v-col>
       <v-col>
@@ -29,11 +27,8 @@
           <v-col>
             <!-- 時刻選択 -->
             <v-time-picker
+              v-model="time"
               format="24hr"
-              :value="time"
-              @change="(value) => {
-                time = value
-              }"
             />
           </v-col>
           <v-col>
