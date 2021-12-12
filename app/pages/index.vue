@@ -1,7 +1,15 @@
 <template>
   <v-container>
     <event-editor v-model="event" />
-    <v-btn>
+    <v-btn
+      fixed
+      elevation="2"
+      fab
+      large
+      bottom
+      right
+      color="primary"
+    >
       Go!
     </v-btn>
   </v-container>
