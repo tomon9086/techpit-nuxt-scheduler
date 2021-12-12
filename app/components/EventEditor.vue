@@ -33,6 +33,7 @@
               no-title
               bottom
               color="primary"
+              @change="addDate"
             />
           </v-col>
         </v-row>
@@ -100,6 +101,23 @@ export default {
         title: this.title,
         description: this.description
       })
+    },
+    addDate (d) {
+      const time = DateTime.fromFormat(this.time, 'HH:mm')
+      const date = DateTime
+        .fromISO(d)
+        .set({
+          hour: time.hour,
+          minute: time.minute
+        })
+      this.dates = [
+        ...this.dates,
+        {
+          id: +new Date(),
+          from: date
+        }
+      ]
+      this.changeEvent()
     }
   }
 }
