@@ -43,7 +43,14 @@
           class="overflow-y-auto"
           max-height="75vh"
         >
-          <date-list-item :date="now" />
+          <div v-if="dates.length === 0">
+            Click Calendar to add date!
+          </div>
+          <date-list-item
+            v-for="v in dates"
+            :key="v.id"
+            :date="v.from"
+          />
         </v-list>
       </v-col>
     </v-row>
@@ -66,10 +73,13 @@ export default {
   },
   data () {
     return {
-      now: DateTime.now(),
       title: '',
       description: '',
-      time: '19:00'
+      time: '19:00',
+      dates: [{
+        id: 1,
+        from: DateTime.now()
+      }]
     }
   },
   watch: {
