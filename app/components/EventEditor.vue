@@ -51,6 +51,7 @@
             v-for="v in dates"
             :key="v.id"
             :date="v.from"
+            :on-remove="() => removeDate(v.id)"
           />
         </v-list>
       </v-col>
@@ -118,6 +119,10 @@ export default {
           from: date
         }
       ]
+      this.changeEvent()
+    },
+    removeDate (id) {
+      this.dates = this.dates.filter(d => d.id !== id)
       this.changeEvent()
     }
   }
