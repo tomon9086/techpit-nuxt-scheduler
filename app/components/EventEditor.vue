@@ -36,6 +36,7 @@
             <v-time-picker
               v-model="time"
               format="24hr"
+              :allowed-minutes="m => m % 5 === 0"
             />
           </v-col>
           <v-col>
@@ -44,6 +45,8 @@
               no-title
               bottom
               color="primary"
+              :allowed-dates="v => !dates.map(d => d.from.toFormat('yyyy-MM-dd')).includes(v)"
+              :min="minDate"
               @change="addDate"
             />
           </v-col>
@@ -94,6 +97,7 @@ export default {
       title: '',
       description: '',
       time: '19:00',
+      minDate: DateTime.now().toFormat('yyyy-MM-dd'),
       dates: [{
         id: 1,
         from: DateTime.now()
