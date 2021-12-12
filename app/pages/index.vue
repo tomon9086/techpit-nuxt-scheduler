@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <event-editor />
+    <event-editor v-model="event" />
     <v-btn>
       Go!
     </v-btn>
@@ -9,6 +9,11 @@
 
 <script>
 export default {
+  data () {
+    return {
+      event: {}
+    }
+  },
   head () {
     return {
       title: 'New Event'
