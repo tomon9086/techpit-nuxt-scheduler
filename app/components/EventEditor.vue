@@ -14,6 +14,7 @@
           required
           counter
           maxlength="25"
+          :rules="[val => (val || '').length > 0 || 'This field is required']"
         />
         <!-- 詳細入力 -->
         <v-textarea
