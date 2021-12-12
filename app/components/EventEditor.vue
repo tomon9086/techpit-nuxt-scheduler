@@ -1,7 +1,12 @@
 <template>
   <v-container>
     <v-row>
-      <v-col>
+      <v-col
+        cols="12"
+        xl="4"
+        lg="4"
+        align="center"
+      >
         <!-- タイトル入力 -->
         <v-text-field
           v-model="title"
@@ -18,7 +23,12 @@
           maxlength="200"
         />
       </v-col>
-      <v-col>
+      <v-col
+        cols="12"
+        xl="4"
+        lg="4"
+        align="center"
+      >
         <v-row>
           <v-col>
             <!-- 時刻選択 -->
@@ -38,7 +48,12 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col>
+      <v-col
+        cols="12"
+        xl="4"
+        lg="4"
+        align="center"
+      >
         <!-- 日時選択解除 -->
         <v-list
           class="overflow-y-auto"
