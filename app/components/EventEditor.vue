@@ -98,10 +98,7 @@ export default {
       description: '',
       time: '19:00',
       minDate: DateTime.now().toFormat('yyyy-MM-dd'),
-      dates: [{
-        id: 1,
-        from: DateTime.now()
-      }]
+      dates: []
     }
   },
   watch: {
@@ -126,12 +123,10 @@ export default {
     },
     addDate (d) {
       const time = DateTime.fromFormat(this.time, 'HH:mm')
-      const date = DateTime
-        .fromISO(d)
-        .set({
-          hour: time.hour,
-          minute: time.minute
-        })
+      const date = DateTime.fromISO(d).set({
+        hour: time.hour,
+        minute: time.minute
+      })
       this.dates = [
         ...this.dates,
         {
