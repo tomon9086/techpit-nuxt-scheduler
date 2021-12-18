@@ -48,6 +48,10 @@
           <tr
             v-for="date in dates"
             :key="date.id"
+            :class="{
+              success: highlightScore.indexOf(scores[date.id]) === 0,
+              accent: highlightScore.indexOf(scores[date.id]) === 1
+            }"
           >
             <td>{{ date.from.toFormat("yyyy/MM/dd") }}</td>
             <td>{{ date.from.toFormat("HH:mm") }} ~ {{ date.to && date.to.toFormat("HH:mm") }}</td>
@@ -159,6 +163,29 @@ export default {
           }
         }
       ]
+    },
+    scores () {
+      const v = {}
+      for (const date of this.dates) {
+        // `date.id` をキー、`this.votes` を整形した配列を値としたオブジェクトを作る
+        v[date.id] = this.votes
+          // 各ユーザから日程に対応する投票結果を抽出、投票がない場合は0
+          .map(u => u.vote[date.id] || 0)
+          // 0を初期値として、配列の各要素を足していく
+          .reduce((p, c) => p + c, 0)
+      }
+      // { [日付文字列]: 日程ごとの合計値 } の型になっている
+      return v
+    },
+    highlightScore () {
+      // scoresから `values` つまり点数だけを取って配列にする
+      const highlights = Object.values(this.scores)
+        // 大きい順にソート
+        .sort((a, b) => b - a)
+        // 上位2つを抜き出す
+        .slice(0, 2)
+      // 1位の点数が0だったら何もハイライトしない
+      return highlights[0] !== 0 ? highlights : []
     }
   }
 }
