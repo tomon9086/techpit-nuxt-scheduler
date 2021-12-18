@@ -44,7 +44,27 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    [
+      '@nuxtjs/firebase',
+      {
+        // ここに構成スニペットの中身をペースト
+        config: {
+          apiKey: 'AIzaSyBgmA7TMOOnQf3akHBGB1T2WrmOag5bMT8',
+          authDomain: 'techpit-nuxt-scheduler.firebaseapp.com',
+          projectId: 'techpit-nuxt-scheduler',
+          storageBucket: 'techpit-nuxt-scheduler.appspot.com',
+          messagingSenderId: '640449949084',
+          appId: '1:640449949084:web:06b0cdf56e5ab845d46c59',
+          measurementId: 'G-ZGHBVFLBDK'
+        },
+        // FirestoreとAnalyticsを有効にする
+        services: {
+          firestore: true,
+          analytics: true
+        }
+      }
+    ]
   ],
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
