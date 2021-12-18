@@ -30,6 +30,7 @@
               <v-btn
                 small
                 color="accent"
+                @click="openVoteDialog(user.id, user.name, user.vote)"
               >
                 {{ user.name }}
               </v-btn>
@@ -38,6 +39,7 @@
               <v-btn
                 small
                 color="primary"
+                @click="openVoteDialog()"
               >
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
@@ -87,10 +89,91 @@
         bottom
         right
         color="primary"
+        @click="$router.push(`/${$route.params.event}/edit`)"
       >
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
     </v-fab-transition>
+    <v-dialog
+      v-model="showVoteDialog"
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+      scrollable
+    >
+      <v-card tile>
+        <v-toolbar
+          flat
+          color="primary"
+        >
+          <v-btn
+            icon
+            @click="closeVoteDialog"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Vote</v-toolbar-title>
+          <v-spacer />
+          <v-toolbar-items>
+            <v-btn
+              text
+            >
+              Save
+            </v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
+        <v-card-text>
+          <v-simple-table>
+            <template #default>
+              <thead>
+                <tr>
+                  <th class="text-left">
+                    Date
+                  </th>
+                  <th />
+                  <th class="text-left">
+                    <v-text-field
+                      v-model="myName"
+                      label="Name"
+                      required
+                      :rules="[val => (val || '').length > 0 || 'This field is required']"
+                      counter
+                      maxlength="10"
+                    />
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="date in dates"
+                  :key="date.id"
+                >
+                  <td>{{ date.from.toFormat("yyyy/MM/dd") }}</td>
+                  <td>{{ date.from.toFormat("HH:mm") }} ~ {{ date.to && date.to.toFormat("HH:mm") }}</td>
+                  <td>
+                    <v-chip-group
+                      v-model="myVote[date.id]"
+                      mandatory
+                      active-class="primary"
+                    >
+                      <v-chip>
+                        <v-icon>mdi-close</v-icon>
+                      </v-chip>
+                      <v-chip>
+                        <v-icon>mdi-triangle-outline</v-icon>
+                      </v-chip>
+                      <v-chip>
+                        <v-icon>mdi-circle-outline</v-icon>
+                      </v-chip>
+                    </v-chip-group>
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -98,9 +181,20 @@
 import { DateTime } from 'luxon'
 
 export default {
+  data () {
+    return {
+      showVoteDialog: false,
+      myId: 0,
+      myName: '',
+      myVote: {}
+    }
+  },
   head () {
     return {
-      title: `${this.title}`
+      title: `${this.title}`,
+      meta: [
+        { hid: 'description', name: 'description', content: this.description }
+      ]
     }
   },
   computed: {
@@ -186,6 +280,17 @@ export default {
         .slice(0, 2)
       // 1位の点数が0だったら何もハイライトしない
       return highlights[0] !== 0 ? highlights : []
+    }
+  },
+  methods: {
+    openVoteDialog (id, name, vote) {
+      this.myId = id || 0
+      this.myName = name || ''
+      this.myVote = { ...vote }
+      this.showVoteDialog = true
+    },
+    closeVoteDialog () {
+      this.showVoteDialog = false
     }
   }
 }
