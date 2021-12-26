@@ -99,7 +99,8 @@ export default {
     changeEvent () {
       this.$emit('change', {
         title: this.title,
-        description: this.description
+        description: this.description,
+        dates: this.dates
       })
     },
     addDate (d) {
