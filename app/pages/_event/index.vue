@@ -117,6 +117,7 @@
           <v-toolbar-items>
             <v-btn
               text
+              @click="saveMyVote"
             >
               Save
             </v-btn>
@@ -263,6 +264,25 @@ export default {
     },
     closeVoteDialog () {
       this.showVoteDialog = false
+    },
+    saveMyVote () {
+      const eventId = this.$route.params.event
+      this.$store.dispatch('setEvent', {
+        id: eventId,
+        votes: [
+          ...this.votes.filter(v => v.id !== this.myId),
+          {
+            id: +new Date(),
+            name: this.myName,
+            vote: this.myVote
+          }
+        ]
+      })
+      this.closeVoteDialog()
+      // 投票モーダルを閉じたら表示用の変数をクリアしておく
+      this.myId = 0
+      this.myName = ''
+      this.myVote = {}
     }
   }
 }
