@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon'
+
 export const state = () => ({
   isLoading: false,
   eventId: '',
@@ -115,6 +117,28 @@ export const actions = {
       })
       .then((doc) => {
         return doc.id
+      })
+  },
+  fetchEvent (ctx, eventId) {
+    return this.$fire.firestore
+      .collection('events')
+      .doc(eventId)
+      .get()
+      .then((doc) => {
+        // ドキュメントの存在確認
+        if (doc.exists) {
+          const event = doc.data()
+          ctx.commit('setEventId', doc.id)
+          ctx.commit('setTitle', event.title)
+          ctx.commit('setDescription', event.description)
+          ctx.commit('setDates', event.dates.map(date => ({
+            ...date,
+            from: DateTime.fromJSDate(date.from.toDate())
+          })))
+          ctx.commit('setVotes', event.votes)
+        } else {
+          throw new Error('not found')
+        }
       })
   }
 }
