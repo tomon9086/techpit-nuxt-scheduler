@@ -69,5 +69,22 @@ export const actions = {
     description && ctx.commit('setDescription', description)
     dates && ctx.commit('setDates', dates)
     votes && ctx.commit('setVotes', votes)
+  },
+  createEvent (_, { title, description, dates }) {
+    return this.$fire.firestore
+      .collection('events')
+      .add({
+        title,
+        description,
+        dates: dates.map(date => ({
+          ...date,
+          // アプリケーション内ではLuxonのDateTimeを使っているので、Firestoreに渡すときには標準のDateに変換しておく
+          from: date.from.toJSDate()
+        })),
+        votes: []
+      })
+      .then((doc) => {
+        return doc.id
+      })
   }
 }
