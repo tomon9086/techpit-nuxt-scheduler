@@ -64,11 +64,41 @@ export const actions = {
     ctx.commit('setVotes', [])
   },
   setEvent (ctx, { id, title, description, dates, votes }) {
-    ctx.commit('setEventId', id)
-    title && ctx.commit('setTitle', title)
-    description && ctx.commit('setDescription', description)
-    dates && ctx.commit('setDates', dates)
-    votes && ctx.commit('setVotes', votes)
+    const event = {}
+
+    // IDが不足していた場合拒否する (Firebaseも勝手に拒否してくれるので省略可)
+    if (!id) {
+      return Promise.reject(new Error('empty id'))
+    }
+
+    // おかしなものが入らないようにする (省略可)
+    if (typeof title === 'string') {
+      event.title = title
+    }
+    if (typeof description === 'string') {
+      event.description = description
+    }
+    if (dates instanceof Array) {
+      event.dates = dates.map(date => ({
+        ...date,
+        from: date.from.toJSDate()
+      }))
+    }
+    if (votes instanceof Array) {
+      event.votes = votes
+    }
+
+    return this.$fire.firestore
+      .collection('events')
+      .doc(id)
+      .update(event)
+      .then(() => {
+        ctx.commit('setEventId', id)
+        title && ctx.commit('setTitle', title)
+        description && ctx.commit('setDescription', description)
+        dates && ctx.commit('setDates', dates)
+        votes && ctx.commit('setVotes', votes)
+      })
   },
   createEvent (_, { title, description, dates }) {
     return this.$fire.firestore
